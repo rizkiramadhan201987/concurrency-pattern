@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"os"
 	"os/signal"
 	"syscall"
@@ -106,7 +107,8 @@ func processMessage(
 					doneChan <- struct{}{} // Signal completion
 				}() // Release semaphore when done
 				message := createMessage(numberTask)
-				time.Sleep(time.Millisecond * time.Duration(message.Ordering))
+				randomMs := rand.Intn(100) // 0-99 milliseconds
+				time.Sleep(time.Millisecond * time.Duration(randomMs))
 				data := &MessageResult{
 					Ordering: message.Ordering,
 					Result:   fmt.Sprintf("FINISH TASK %d", message.Ordering),
